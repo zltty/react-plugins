@@ -1,0 +1,11 @@
+{
+  "name": "@mitod/mitod-react-native-hooks",
+  "version": "0.0.1",
+  "files": [
+    "lib"
+  ],
+  "devDependencies": {
+    "react": "16.8.6",
+    "react-native": "0.60.4"
+  }
+}
