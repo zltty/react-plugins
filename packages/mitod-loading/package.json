@@ -1,0 +1,7 @@
+{
+  "name": "@mitod/mitod-loading",
+  "version": "0.0.1",
+  "files": [
+    "lib"
+  ]
+}
