@@ -13,18 +13,7 @@ interface IConfigProps {
   dev: boolean;
 }
 
-type TErrorCallback = (e: Error) => void;
-type TRNNRouter = (router: Map<string, (props?: any) => React.ReactNode>) => void;
-
-interface IConfigResult {
-  useReduxReducer: (middleware: any) => void;
-  useReduxMiddleware: (middleware: Middleware) => void;
-  onError(fn: TErrorCallback): void;
-  startRN(root: React.ReactNode): React.ReactNode; // react-navigation
-  startRNN(root: TRNNRouter): void; // react-native-navigation
-}
-
-export default (config: IConfigProps): IConfigResult => {
+export default (config: IConfigProps) => {
   const middlewares: Middleware[] = [];
   const sagaMiddleware = createSagaMiddleware();
   const { initialState, models, dev = false } = config;
@@ -54,16 +43,12 @@ export default (config: IConfigProps): IConfigResult => {
   };
 
   // methods
-  const startRN = (Router: any): React.ReactNode => {
-    const store = injectStore();
-    return () => (
-      <StoreContext.Provider value={store}>
-        <Router />
+  const ReduxProvider = ({children}) => {
+    return (
+      <StoreContext.Provider value={injectStore()}>
+        {children}
       </StoreContext.Provider>
     );
-  };
-  const startRNN = () => {
-    // TODO支持react-native-navigation
   };
   /**
    * reducer middleware
@@ -79,19 +64,11 @@ export default (config: IConfigProps): IConfigResult => {
   const useReduxMiddleware = (middleware: Middleware) => {
     middlewares.push(middleware);
   };
-  const onError = () => {
-    // TODO 捕获异常
-    // setTimeout(() => {
-    //   fn(new Error('times osss'));
-    // }, 20000);
-  };
 
   return {
-    startRN,
-    startRNN,
+    ReduxProvider,
     useReduxReducer,
-    useReduxMiddleware,
-    onError
+    useReduxMiddleware
   };
 };
 
