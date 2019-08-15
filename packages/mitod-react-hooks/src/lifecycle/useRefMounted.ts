@@ -1,7 +1,7 @@
 import { RefObject, useEffect, useRef } from 'react';
 
-const useRefMounted = () => {
-  const refMounted = useRef(false);
+const useRefMounted = (): RefObject<boolean> => {
+  const refMounted = useRef<boolean>(false);
 
   useEffect(() => {
     refMounted.current = true;

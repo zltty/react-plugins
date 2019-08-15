@@ -1,9 +1,24 @@
 {
   "name": "@mitod/mitod-loading",
   "version": "0.0.1",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
   "files": [
-    "lib"
+    "lib",
+    "esm"
   ],
+  "scripts": {
+    "clean": "rimraf lib esm",
+    "build:cj": "npm run clean && tsc --project tsconfig.json",
+    "build:es": "tsc -m esNext --outDir esm",
+    "build": "npm run build:cj && npm run build:es",
+    "prepublishOnly":"npm run build"
+  },
+  "devDependencies": {
+    "rimraf": "^2.6.3",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3"
+  },
   "publishConfig": {
     "access": "public"
   }

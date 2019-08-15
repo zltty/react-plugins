@@ -1,11 +1,30 @@
 {
   "name": "@mitod/mitod-react-hooks",
   "version": "0.0.1",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
   "files": [
-    "lib"
+    "lib",
+    "esm"
   ],
+  "scripts": {
+    "clean": "rimraf lib esm",
+    "build:cj": "npm run clean && tsc --project tsconfig.json",
+    "build:es": "tsc -m esNext --outDir esm",
+    "build": "npm run build:cj && npm run build:es",
+    "prepublishOnly":"npm run build"
+  },
   "devDependencies": {
-    "react": "16.8.6"
+    "@mitod/tslint-config-mitod": "0.0.2",
+    "@testing-library/react": "^9.1.1",
+    "@testing-library/react-hooks": "^1.1.0",
+    "@types/redux-logger": "^3.0.7",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-test-renderer": "^16.9.0",
+    "rimraf": "^2.6.3",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3"
   },
   "publishConfig": {
     "access": "public"
