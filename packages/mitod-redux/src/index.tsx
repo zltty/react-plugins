@@ -19,8 +19,8 @@ interface IConstraintResult {
   useReduxReducer: (middleware: any) => void;
   useReduxMiddleware: (middleware: Middleware) => void;
   onError(fn: TErrorCallback): void;
-  startRN(router: React.ReactNode): React.ReactNode; // react-navigation
-  startRNN(router: TRNNRouter): void; // react-native-navigation
+  startRN(root: React.ReactNode): React.ReactNode; // react-navigation
+  startRNN(root: TRNNRouter): void; // react-native-navigation
 }
 
 export default (config: IConstraintProps): IConstraintResult => {
@@ -31,7 +31,7 @@ export default (config: IConstraintProps): IConstraintResult => {
 
   middlewares.push(sagaMiddleware);
   /* global __DEV__  */
-  if (__DEV__) {
+  if (globalThis.__DEV__) {
     middlewares.push(logger);
   }
 
