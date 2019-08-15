@@ -7,15 +7,16 @@ import createSagaMiddleware, { END, Saga } from 'redux-saga';
 import createReduersSaga, { IAction, IEffect, IState, Models } from './createReduersSaga';
 
 export { IState, IAction, IEffect };
-interface IConstraintProps {
+interface IConfigProps {
   initialState?: any;
   models: Models[];
+  dev: boolean;
 }
 
 type TErrorCallback = (e: Error) => void;
 type TRNNRouter = (router: Map<string, (props?: any) => React.ReactNode>) => void;
 
-interface IConstraintResult {
+interface IConfigResult {
   useReduxReducer: (middleware: any) => void;
   useReduxMiddleware: (middleware: Middleware) => void;
   onError(fn: TErrorCallback): void;
@@ -23,15 +24,14 @@ interface IConstraintResult {
   startRNN(root: TRNNRouter): void; // react-native-navigation
 }
 
-export default (config: IConstraintProps): IConstraintResult => {
+export default (config: IConfigProps): IConfigResult => {
   const middlewares: Middleware[] = [];
   const sagaMiddleware = createSagaMiddleware();
-  const { initialState, models } = config;
+  const { initialState, models, dev = false } = config;
   const addReducers: ReducersMapObject<any, any> = {};
 
   middlewares.push(sagaMiddleware);
-  /* global __DEV__  */
-  if (globalThis.__DEV__) {
+  if (dev) {
     middlewares.push(logger);
   }
 
