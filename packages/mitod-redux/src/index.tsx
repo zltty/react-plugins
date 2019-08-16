@@ -10,21 +10,20 @@ import { StoreContext, useDispatch, useMappedState } from 'redux-react-hook';
 import createSagaMiddleware, { END } from 'redux-saga';
 import { all } from 'redux-saga/effects';
 
-import createReduersSaga, {
-  ReducersAction,
-  ReducersState,
-  Models,
-} from './createReduersSaga';
-
-export { ReducersState, ReducersAction };
+import createReduersSaga, { Models } from './createReduersSaga';
 
 interface ConfigProps {
   initialState?: object;
   models: Models[];
   dev: boolean;
 }
+interface ConfigResult {
+  ReduxProvider;
+  useReduxReducer;
+  useReduxMiddleware;
+}
 
-export default (config: ConfigProps): object => {
+export default (config: ConfigProps): ConfigResult => {
   const middlewares: Middleware[] = [];
   const sagaMiddleware = createSagaMiddleware();
   const { initialState, models, dev = false } = config;

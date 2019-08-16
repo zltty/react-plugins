@@ -1,20 +1,16 @@
 import { ReducersMapObject } from 'redux';
 import { ForkEffect } from 'redux-saga/effects';
 
-import getReducers, {
-  ReducersAction,
-  ReducersState,
-  Reducers,
-} from './getReducers';
+import getReducers, { ModelsState, ModelsReducers } from './getReducers';
 import getSaga from './getSaga';
 
 export interface Models {
   namespace: string;
-  state: ReducersState;
-  reducers: Reducers;
+  state: ModelsState;
+  reducers: ModelsReducers;
   effects?: any;
 }
-export { ReducersState, ReducersAction };
+export { ModelsState };
 
 export default function createReduer(
   models: Models[],

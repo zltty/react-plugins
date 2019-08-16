@@ -1,28 +1,22 @@
-import { Action, Reducer } from 'redux';
-export interface ReducersState {
-  [x: string]: object;
+import { Reducer } from 'redux';
+export interface ModelsState {
+  [x: string]: any;
 }
-export interface Reducers {
-  [x: string]: (state: ReducersState, action: Action) => void;
+export interface ModelsReducers {
+  [x: string]: (state: ModelsState, action: any) => void;
 }
-export interface ReducersAction extends Action {
-  payload?: object;
-}
-export type StateAction = (state, action) => ReducersState;
+export type StateAction = (state, action) => ModelsState;
 
 export default function getReducers(
-  reducers: Reducers,
-  initState: ReducersState,
+  reducers: ModelsReducers,
+  initState: ModelsState,
   namespace: string,
 ): Reducer {
-  return (
-    state: ReducersState = initState,
-    action: ReducersAction,
-  ): ReducersState => {
+  return (state: ModelsState = initState, action: any): ModelsState => {
     const path = action.type.match(/^(\S+\.reducer)\/(\S+)$/);
     if (path && path[1] === `${namespace}.reducers`) {
       const actor = reducers[path[2]](state, action);
-      return (actor as unknown) as ReducersState;
+      return (actor as unknown) as ModelsState;
     }
     return initState;
   };
