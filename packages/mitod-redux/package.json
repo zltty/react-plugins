@@ -1,6 +1,6 @@
 {
   "name": "@mitod/mitod-redux",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "lib/index.js",
   "module": "esm/index.js",
   "files": [
@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "lint": "eslint .",
-    "fix":"eslint . --fix",
+    "fix": "eslint . --fix",
     "clean": "rimraf lib esm",
     "build:cj": "npm run clean && tsc --project tsconfig.json",
     "build:es": "tsc -m esNext --outDir esm",
