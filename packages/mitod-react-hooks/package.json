@@ -8,10 +8,12 @@
     "esm"
   ],
   "scripts": {
+    "lint": "eslint .",
+    "fix": "eslint . --fix",
     "clean": "rimraf lib esm",
-    "build:cj": "npm run clean && tsc --project tsconfig.json",
+    "build:cj": "tsc --project tsconfig.json",
     "build:es": "tsc -m esNext --outDir esm",
-    "build": "npm run build:cj && npm run build:es",
+    "build": "npm run clean && npm run build:cj && npm run build:es",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
