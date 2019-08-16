@@ -23,6 +23,7 @@
     "lib",
     "**/__tests__/**/*",
     "*.test.ts",
-    "*.test.tsx"
+    "*.test.tsx",
+    "eslint.js"
   ]
 }

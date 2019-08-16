@@ -10,7 +10,7 @@ const useLifecycles = (mount: React.EffectCallback, unmount?: () => void) => {
         unmount();
       }
     };
-  }, []);
+  }, [mount, unmount]);
 };
 
 export default useLifecycles;

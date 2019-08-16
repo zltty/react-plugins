@@ -8,6 +8,8 @@
     "esm"
   ],
   "scripts": {
+    "lint": "eslint .",
+    "fix": "eslint . --fix",
     "clean": "rimraf lib esm",
     "build:cj": "npm run clean && tsc --project tsconfig.json",
     "build:es": "tsc -m esNext --outDir esm",
@@ -15,8 +17,9 @@
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
+    "@react-native-community/eslint-config": "0.0.5",
+    "eslint": "^6.1.0",
     "rimraf": "^2.6.3",
-    "tslint": "^5.18.0",
     "typescript": "^3.5.3"
   },
   "publishConfig": {

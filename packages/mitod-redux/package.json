@@ -8,6 +8,8 @@
     "esm"
   ],
   "scripts": {
+    "lint": "eslint .",
+    "fix":"eslint . --fix",
     "clean": "rimraf lib esm",
     "build:cj": "npm run clean && tsc --project tsconfig.json",
     "build:es": "tsc -m esNext --outDir esm",
@@ -21,15 +23,16 @@
     "redux-saga": "^1.0.5"
   },
   "devDependencies": {
-    "@mitod/tslint-config-mitod": "0.0.2",
+    "@react-native-community/eslint-config": "0.0.5",
     "@testing-library/react": "^9.1.1",
     "@testing-library/react-hooks": "^1.1.0",
     "@types/redux-logger": "^3.0.7",
+    "eslint": "^6.1.0",
+    "jest": "24.8.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-test-renderer": "^16.9.0",
     "rimraf": "^2.6.3",
-    "tslint": "^5.18.0",
     "typescript": "^3.5.3"
   },
   "publishConfig": {

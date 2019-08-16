@@ -1,78 +1,88 @@
 import React from 'react';
-import { applyMiddleware, combineReducers, createStore, Middleware, ReducersMapObject } from 'redux';
+import {
+  applyMiddleware,
+  combineReducers,
+  createStore,
+  Middleware,
+} from 'redux';
 import logger from 'redux-logger';
 import { StoreContext, useDispatch, useMappedState } from 'redux-react-hook';
-import createSagaMiddleware, { END, Saga } from 'redux-saga';
+import createSagaMiddleware, { END } from 'redux-saga';
+import { all } from 'redux-saga/effects';
 
-import createReduersSaga, { IAction, IEffect, IState, Models } from './createReduersSaga';
+import createReduersSaga, {
+  ReducersAction,
+  ReducersState,
+  Models,
+} from './createReduersSaga';
 
-export { IState, IAction, IEffect };
-interface IConfigProps {
-  initialState?: any;
+export { ReducersState, ReducersAction };
+
+interface ConfigProps {
+  initialState?: object;
   models: Models[];
   dev: boolean;
 }
 
-export default (config: IConfigProps) => {
+export default (config: ConfigProps): object => {
   const middlewares: Middleware[] = [];
   const sagaMiddleware = createSagaMiddleware();
   const { initialState, models, dev = false } = config;
-  const addReducers: ReducersMapObject<any, any> = {};
+  const addReducers = {};
 
   middlewares.push(sagaMiddleware);
   if (dev) {
     middlewares.push(logger);
   }
 
-  const injectStore = () => {
-    const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
+  const injectStore = (): object => {
+    const createStoreWithMiddleware = applyMiddleware(...middlewares)(
+      createStore,
+    );
 
     // reducers
     const [reducers, sagas] = createReduersSaga(models);
     const rootReducer = combineReducers({
       ...reducers,
-      ...addReducers
+      ...addReducers,
     });
     // initialState
     const store = createStoreWithMiddleware(rootReducer, initialState);
 
     // exec
-    sagaMiddleware.run(sagas as Saga);
-    Object.assign(store, { close: () => () => store.dispatch(END) });
+    sagaMiddleware.run(function*() {
+      yield all(sagas);
+    });
+    Object.assign(store, { close: () => store.dispatch(END) });
     return store;
   };
 
   // methods
-  const ReduxProvider = ({children}) => {
-    return (
-      <StoreContext.Provider value={injectStore()}>
-        {children}
-      </StoreContext.Provider>
-    );
-  };
+  const ReduxProvider = ({ children }): React.ReactNode => (
+    <StoreContext.Provider value={injectStore()}>
+      {children}
+    </StoreContext.Provider>
+  );
   /**
    * reducer middleware
    */
-  const useReduxReducer = (reducerMiddleware: any, options: any = {}) => {
-    const {namespace, reducer, middleware}  = reducerMiddleware(options);
+  const useReduxReducer = (reducerMiddleware, options = {}): void => {
+    const { namespace, reducer, middleware } = reducerMiddleware(options);
     addReducers[namespace] = reducer;
     middlewares.push(middleware);
   };
   /**
    * redux middleware
    */
-  const useReduxMiddleware = (middleware: Middleware) => {
+  const useReduxMiddleware = (middleware: Middleware): void => {
     middlewares.push(middleware);
   };
 
   return {
     ReduxProvider,
     useReduxReducer,
-    useReduxMiddleware
+    useReduxMiddleware,
   };
 };
 
-export {
-  useDispatch,
-  useMappedState
-};
+export { useDispatch, useMappedState };

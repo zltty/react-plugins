@@ -1,33 +1,38 @@
 import { ReducersMapObject } from 'redux';
-import { all } from 'redux-saga/effects';
-import getReducers, { IAction, IState, Reducers } from './getReducers';
-import getSaga, { GeneratorsType, IEffect, IEffectGenerator } from './getSaga';
+import { ForkEffect } from 'redux-saga/effects';
+
+import getReducers, {
+  ReducersAction,
+  ReducersState,
+  Reducers,
+} from './getReducers';
+import getSaga from './getSaga';
 
 export interface Models {
   namespace: string;
-  state: IState;
+  state: ReducersState;
   reducers: Reducers;
-  effects?: IEffectGenerator;
+  effects?: any;
 }
-export { IState, IAction, IEffect };
+export { ReducersState, ReducersAction };
 
-export default function createReduer(models: Models[]) {
+export default function createReduer(
+  models: Models[],
+): [ReducersMapObject<any, any>, ForkEffect[]] {
   const reducer: ReducersMapObject<any, any> = {};
-  const sagas: GeneratorsType[] = [];
+  const sagas: ForkEffect[] = [];
 
-  const sagasGenerator = (sagas: GeneratorsType[]) => {
-    return function*() {
-      yield all(sagas);
-    };
-  };
-
-  models.forEach((items) => {
-    reducer[items.namespace] = getReducers(items.reducers, items.state, items.namespace);
+  models.forEach(items => {
+    reducer[items.namespace] = getReducers(
+      items.reducers,
+      items.state,
+      items.namespace,
+    );
     if (items.effects) {
       const saga = getSaga(items.effects, items.namespace);
       sagas.push(...saga);
     }
   });
 
-  return [reducer, sagasGenerator(sagas)];
+  return [reducer, sagas];
 }

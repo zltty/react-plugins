@@ -1,20 +1,28 @@
 import { Action, Reducer } from 'redux';
-export interface IState {
-  [x: string]: any;
+export interface ReducersState {
+  [x: string]: object;
 }
 export interface Reducers {
-  [x: string]: (state: IState, action: Action) => void;
+  [x: string]: (state: ReducersState, action: Action) => void;
 }
-export interface IAction extends Action{
-  payload?: any;
+export interface ReducersAction extends Action {
+  payload?: object;
 }
+export type StateAction = (state, action) => ReducersState;
 
-export default function getReducers(reducers: Reducers, initState: IState, namespace: string): Reducer {
-  return (state: IState = initState, action: IAction) => {
+export default function getReducers(
+  reducers: Reducers,
+  initState: ReducersState,
+  namespace: string,
+): Reducer {
+  return (
+    state: ReducersState = initState,
+    action: ReducersAction,
+  ): ReducersState => {
     const path = action.type.match(/^(\S+\.reducer)\/(\S+)$/);
-    if (path && (path[1] === `${namespace}.reducers`)) {
-      const actor = reducers[path[2]];
-      return actor(state, action);
+    if (path && path[1] === `${namespace}.reducers`) {
+      const actor = reducers[path[2]](state, action);
+      return (actor as unknown) as ReducersState;
     }
     return initState;
   };

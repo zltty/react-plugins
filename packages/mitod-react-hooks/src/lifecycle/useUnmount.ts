@@ -1,6 +1,6 @@
 import useEffectOnce from './useEffectOnce';
 
-const useUnmount = (fn) => {
+const useUnmount = fn => {
   useEffectOnce(() => fn);
 };
 

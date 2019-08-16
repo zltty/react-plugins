@@ -12,44 +12,44 @@ export interface Loading {
  */
 const NAMESPACE = 'loading';
 const initState = {
-  global: false
+  global: false,
 };
 interface IOptions {
   name?: string;
   [x: string]: any;
 }
-interface IAction{
+interface IAction {
   payload?: {
     [x: string]: any;
   };
   [x: string]: any;
 }
 
-export default function createLoading(options: IOptions= {}) {
+export default function createLoading(options: IOptions = {}) {
   const _namespace = options.name || NAMESPACE;
   // 创建reducer
   return {
     namespace: _namespace,
     reducer: (state = initState, { type, actionType }: IAction) => {
-      switch (type){
+      switch (type) {
         case `${_namespace}/@@show`: {
           return {
             ...state,
             global: true,
-            [actionType]: true
+            [actionType]: true,
           };
         }
         case `${_namespace}/@@hide`: {
           return {
             ...state,
             global: false,
-            [actionType]: false
+            [actionType]: false,
           };
         }
         default:
           return initState;
       }
     },
-    middleware: () => (next: any) => (action: any) => next(action)
+    middleware: () => (next: any) => (action: any) => next(action),
   };
 }
