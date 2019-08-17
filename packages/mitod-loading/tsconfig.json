@@ -10,6 +10,7 @@
     "declaration": true,
     "pretty": true,
     "sourceMap": false,
+    "skipLibCheck":true,
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
