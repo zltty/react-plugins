@@ -1,6 +1,6 @@
 {
   "name": "@mitod/mitod-redux",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "main": "lib/index.js",
   "module": "esm/index.js",
   "files": [
@@ -17,7 +17,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@mitod/mitod-loading": "^0.0.4",
+    "@mitod/mitod-loading": "^0.0.5",
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
     "redux-react-hook": "^3.3.2",
