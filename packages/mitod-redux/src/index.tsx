@@ -5,6 +5,7 @@ import {
   createStore,
   Middleware,
 } from 'redux';
+import mitodLoading from '@mitod/mitod-loading';
 import logger from 'redux-logger';
 import { StoreContext, useDispatch, useMappedState } from 'redux-react-hook';
 import createSagaMiddleware, { END } from 'redux-saga';
@@ -16,6 +17,7 @@ interface ConfigProps {
   initialState?: object;
   models: Models[];
   dev: boolean;
+  loading: string;
 }
 interface ConfigResult {
   ReduxProvider;
@@ -26,13 +28,8 @@ interface ConfigResult {
 export default (config: ConfigProps): ConfigResult => {
   const middlewares: Middleware[] = [];
   const sagaMiddleware = createSagaMiddleware();
-  const { initialState, models, dev = false } = config;
+  const { initialState, models, dev = false, loading = 'loading' } = config;
   const addReducers = {};
-
-  middlewares.push(sagaMiddleware);
-  if (dev) {
-    middlewares.push(logger);
-  }
 
   const injectStore = (): object => {
     const createStoreWithMiddleware = applyMiddleware(...middlewares)(
@@ -76,6 +73,12 @@ export default (config: ConfigProps): ConfigResult => {
   const useReduxMiddleware = (middleware: Middleware): void => {
     middlewares.push(middleware);
   };
+
+  useReduxReducer(mitodLoading, { name: loading });
+
+  if (dev) {
+    middlewares.push(logger);
+  }
 
   return {
     ReduxProvider,
