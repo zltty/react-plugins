@@ -14,77 +14,73 @@ import { all } from 'redux-saga/effects';
 import createReduersSaga, { Models } from './createReduersSaga';
 
 interface ConfigProps {
+  /**
+   * 初始化数据，可为空
+   */
   initialState?: object;
+  /**
+   * modles 领域模型
+   */
   models: Models[];
+  /**
+   * 开发环境
+   */
   dev: boolean;
-  loading: string;
-}
-interface ConfigResult {
-  ReduxProvider;
-  useReduxReducer;
-  useReduxMiddleware;
+  /**
+   * 全局loading 名称默认 loading
+   */
+  loading?: string;
 }
 
-export default (config: ConfigProps): ConfigResult => {
-  const middlewares: Middleware[] = [];
+const middlewares: Middleware[] = [];
+const addReducers = {};
+
+const Config = (config: ConfigProps) => {
+  const {
+    initialState = {},
+    models,
+    dev = false,
+    loading = 'loading',
+  } = config;
   const sagaMiddleware = createSagaMiddleware();
-  const { initialState, models, dev = false, loading = 'loading' } = config;
-  const addReducers = {};
+  middlewares.push(sagaMiddleware);
 
-  const injectStore = (): object => {
-    const createStoreWithMiddleware = applyMiddleware(...middlewares)(
-      createStore,
-    );
-
-    // reducers
-    const [reducers, sagas] = createReduersSaga(models);
-    const rootReducer = combineReducers({
-      ...reducers,
-      ...addReducers,
-    });
-    // initialState
-    const store = createStoreWithMiddleware(rootReducer, initialState);
-
-    // exec
-    sagaMiddleware.run(function*() {
-      yield all(sagas);
-    });
-    Object.assign(store, { close: () => store.dispatch(END) });
-    return store;
-  };
-
-  // methods
-  const ReduxProvider = ({ children }): React.ReactNode => (
-    <StoreContext.Provider value={injectStore()}>
-      {children}
-    </StoreContext.Provider>
-  );
-  /**
-   * reducer middleware
-   */
-  const useReduxReducer = (reducerMiddleware, options = {}): void => {
-    const { namespace, reducer, middleware } = reducerMiddleware(options);
-    addReducers[namespace] = reducer;
-    middlewares.push(middleware);
-  };
-  /**
-   * redux middleware
-   */
-  const useReduxMiddleware = (middleware: Middleware): void => {
-    middlewares.push(middleware);
-  };
-
-  useReduxReducer(mitodLoading, { name: loading });
-
+  // add loading
+  const { namespace, reducer, middleware } = mitodLoading({
+    name: loading,
+  });
+  addReducers[namespace] = reducer;
+  middlewares.push(middleware);
   if (dev) {
     middlewares.push(logger);
   }
 
-  return {
-    ReduxProvider,
-    useReduxReducer,
-    useReduxMiddleware,
-  };
+  // reducers
+  const [modelsReducers, sagas] = createReduersSaga(models);
+  const reducers = combineReducers({
+    ...modelsReducers,
+    ...addReducers,
+  });
+  // initialState
+  const store = createStore(
+    reducers,
+    initialState,
+    applyMiddleware(...middlewares),
+  );
+  // exec
+  sagaMiddleware.run(function*() {
+    yield all(sagas);
+  });
+
+  Object.assign(store, { close: () => store.dispatch(END) });
+
+  return store;
 };
 
-export { useDispatch, useMappedState };
+const Root = ({ children, store }) => {
+  return (
+    <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
+  );
+};
+
+export { Config, Root, useDispatch, useMappedState };
