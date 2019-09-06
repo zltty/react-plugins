@@ -1,6 +1,6 @@
 {
   "name": "@mitod/mitod-redux",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "main": "lib/index.js",
   "module": "esm/index.js",
   "files": [
@@ -17,11 +17,11 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
+    "@mitod/mitod-loading": "^0.0.4",
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
     "redux-react-hook": "^3.3.2",
-    "redux-saga": "^1.0.5",
-    "@mitod/mitod-loading": "0.0.3"
+    "redux-saga": "^1.0.5"
   },
   "devDependencies": {
     "@react-native-community/eslint-config": "0.0.5",
