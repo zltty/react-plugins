@@ -12,7 +12,7 @@ type CountDownType = [
 ];
 
 const useCountDown = (
-  fn: Function,
+  fn?: () => void,
   countTime = defaultCountTime,
 ): CountDownType => {
   const [start, setStart] = useState(false); // 开启倒计时
@@ -22,7 +22,9 @@ const useCountDown = (
     () => {
       if (countDown === 0) {
         setStart(false);
-        fn();
+        setCountDown(countTime);
+        fn && fn();
+        return;
       }
       setCountDown(countDown - 1);
     },
