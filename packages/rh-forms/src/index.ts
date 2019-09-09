@@ -20,13 +20,15 @@ type validatorType = 'immediate' | 'submit';
 export default function useForms(config: IConfig, type?: validatorType) {
   const initConfig = useRef(config);
 
-  let initValue: any = {};
-  const keys = Object.keys(config);
-  keys.forEach((key: string) => {
-    initValue[key] = config[key].initValue;
+  const [values, setValues] = useState<any>(() => {
+    const keys = Object.keys(config);
+    const initValue = {};
+    keys.forEach((key: string) => {
+      initValue[key] = config[key].initValue;
+    });
+    return initValue;
   });
 
-  const values = useRef(initValue);
   const [errors, setErrors] = useState<any>({});
   const [isValidating, setIsValidating] = useState(false);
 
@@ -35,37 +37,39 @@ export default function useForms(config: IConfig, type?: validatorType) {
     field => {
       return {
         disabled: isValidating,
-        value: values.current[field],
+        value: values[field],
         error: errors[field],
       };
     },
-    [errors, isValidating],
+    [errors, isValidating, values],
   );
 
   // 校验
   const checkError = useCallback(() => {
-    const result = validator(values.current, initConfig.current);
+    const result = validator(values, initConfig.current);
     const isValid = JSON.stringify(result) === '{}';
     setErrors(result);
     return isValid;
-  }, []);
+  }, [values]);
 
   // input
   const getFieldProps = useCallback(
-    field => {
+    (field, options: any = {}) => {
       if (!initConfig.current[field]) {
         throw new Error(`field: ${field} is not exist`);
       }
 
-      const { trigger, callback } = initConfig.current[field];
+      const { trigger, validate } = options;
 
       return {
         ...getFieldValitate(field),
         [trigger ? trigger : 'onChange']: (value: string) => {
-          values.current[field] = value;
+          setValues(preValues => {
+            return { ...preValues, [field]: value };
+          });
           // 如果validator是函数
-          if (callback && typeof callback === 'function') {
-            callback(value);
+          if (validate && typeof validate === 'function') {
+            validate(value);
           }
 
           if (type === 'immediate') {
@@ -87,16 +91,17 @@ export default function useForms(config: IConfig, type?: validatorType) {
           const isValid = checkError();
           setIsValidating(false);
           if (isValid) {
-            onSubmit(values.current, errors);
+            onSubmit(values, errors);
           }
         },
       };
     },
-    [checkError, errors],
+    [checkError, errors, values],
   );
 
   return {
     errors,
+    values,
     isValidating,
 
     getFieldProps,
