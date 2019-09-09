@@ -1,0 +1,38 @@
+{
+  "name": "@mitod/rh-forms",
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "files": [
+    "lib",
+    "esm"
+  ],
+  "scripts": {
+    "lint": "eslint .",
+    "fix": "eslint . --fix",
+    "clean": "rimraf lib esm",
+    "build:cj": "tsc --project tsconfig.json",
+    "build:es": "tsc -m esNext --outDir esm",
+    "build": "npm run clean && npm run build:cj && npm run build:es",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "react": "^16.9.0"
+  },
+  "devDependencies": {
+    "@react-native-community/eslint-config": "0.0.5",
+    "@testing-library/react": "^9.1.1",
+    "@testing-library/react-hooks": "^1.1.0",
+    "@types/redux-logger": "^3.0.7",
+    "eslint": "^6.1.0",
+    "jest": "24.8.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-test-renderer": "^16.9.0",
+    "rimraf": "^2.6.3",
+    "typescript": "^3.5.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

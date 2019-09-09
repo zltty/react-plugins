@@ -2,11 +2,8 @@
 
 基于redux 集成了redux-saga的封装
 
-## TODO 
-- [ ] constraint-loading 待完成
-
 ## 目录
-```
+```ts
 src
 - models (写法详见Models)
 - - index.ts
@@ -20,23 +17,25 @@ src
 
 ## 使用
 ```tsx
-config = {
-  // 初始化state
-  initialState: {},
+import { Config, Root } from '@mitod/mitod-redux/src';
+
+import Setup from './src/index';
+import models from './src/model';
+
+const store = Config({
   models,
-}
-// 1.初始化
-const app = constraint(config);
-// 2. 异常捕获
-app.onError( e =>{});
-// 3. 扩展插件(基于redux的插件机制)
-app.use(loading);
-// 4. 启动
-app.start((Provider: reduxProvider)=>{
-  <Provider>
-    ... 
-  </Provider>
+  dev: __DEV__,
 });
+
+const App = () => {
+  return (
+    <Root store={store}>
+      <Setup />
+    </Root>
+  );
+};
+
+export default App;
 ```
 
 ## Models
@@ -64,19 +63,16 @@ export default {
 ## dispatch
 
 ```js
-分两种
-1. reducer 
+// 1. reducer 
 dispatch({
   type:'aaaa.reducers/bbbb'
 })
-2. effect
+// 2. effect
 dispatch({
   type:'aaaa.effects/bbbb'
 })
-```
-
-## 内置插件
-```js
-redux-logger
-...
+// 3. 取消task
+dispatch({
+  type:'aaaa.effects/bbbb@@cancel'
+})
 ```

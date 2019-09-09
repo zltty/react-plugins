@@ -11,7 +11,10 @@ import { StoreContext, useDispatch, useMappedState } from 'redux-react-hook';
 import createSagaMiddleware, { END } from 'redux-saga';
 import { all } from 'redux-saga/effects';
 
-import createReduersSaga, { Models } from './createReduersSaga';
+import createReduersSaga from './createReduersSaga';
+import { Model } from './types';
+
+export { Model };
 
 interface ConfigProps {
   /**
@@ -21,7 +24,7 @@ interface ConfigProps {
   /**
    * modles 领域模型
    */
-  models: Models[];
+  models: Model[];
   /**
    * 开发环境
    */

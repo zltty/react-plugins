@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "lib",
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "jsx": "react",
+    "declaration": true,
+    "pretty": true,
+    "sourceMap": false,
+    "skipLibCheck":true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": false,
+    "noFallthroughCasesInSwitch": true,
+    "lib": ["esnext", "dom"]
+  },
+  "exclude": [
+    "node_modules",
+    "lib",
+    "**/__tests__/**/*",
+    "*.test.ts",
+    "*.test.tsx",
+    "eslint.js"
+  ]
+}

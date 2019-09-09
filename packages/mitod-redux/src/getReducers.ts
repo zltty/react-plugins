@@ -1,22 +1,17 @@
 import { Reducer } from 'redux';
-export interface ModelsState {
-  [x: string]: any;
-}
-export interface ModelsReducers {
-  [x: string]: (state: ModelsState, action: any) => void;
-}
-export type StateAction = (state, action) => ModelsState;
+
+import { ModelReducers, ModelState } from './types';
 
 export default function getReducers(
-  reducers: ModelsReducers,
-  initState: ModelsState,
+  reducers: ModelReducers,
+  initState: ModelState,
   namespace: string,
 ): Reducer {
-  return (state: ModelsState = initState, action: any): ModelsState => {
+  return (state: ModelState = initState, action: any): ModelState => {
     const path = action.type.match(/^(\S+\.reducer)\/(\S+)$/);
     if (path && path[1] === `${namespace}.reducers`) {
       const actor = reducers[path[2]](state, action);
-      return (actor as unknown) as ModelsState;
+      return (actor as unknown) as ModelState;
     }
     return initState;
   };

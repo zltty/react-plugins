@@ -1,50 +1,63 @@
 import { Action } from 'redux';
-import * as ReduxSagaEffects from 'redux-saga/effects';
+import {
+  fork,
+  put,
+  takeEvery,
+  takeLatest,
+  cancel,
+  take,
+  call,
+  delay,
+  throttle,
+  debounce,
+} from 'redux-saga/effects';
 
-export interface SagaEffectGenerator {
-  [x: string]: Function;
-}
-export type GeneratorsType = ReduxSagaEffects.SimpleEffect<
-  'FORK',
-  ReduxSagaEffects.ForkEffectDescriptor
->;
-
-export interface SagaEffect {
-  put: ReduxSagaEffects.PutEffect;
-  take: ReduxSagaEffects.TakeEffect;
-  call: ReduxSagaEffects.CallEffect;
-  delay<T = true>(ms: number, val?: T): ReduxSagaEffects.CallEffect;
-  [x: string]: object;
-}
+import { SagaEffectGenerator, GeneratorsType, ForkEffect } from './types';
 
 export default function getSaga(
   effects: SagaEffectGenerator,
   namespace: string,
-): ReduxSagaEffects.ForkEffect[] {
+): ForkEffect[] {
   const generators: GeneratorsType[] = [];
 
   Object.keys(effects).forEach(key => {
-    const FLGA = `${namespace}.effects/${key}`;
+    const SagaPattern = `${namespace}.effects/${key}`;
 
-    function* logType(type: Action) {
-      yield ReduxSagaEffects.put({
+    function* currentActionType(type: Action) {
+      yield put({
         type,
-        actionType: FLGA,
+        actionType: SagaPattern,
       });
     }
 
+    /**
+     * 生成effects
+     * @param params
+     */
     function* sagaEffects(params: any) {
       const watcher = function*() {
-        yield effects[key](params, { ...ReduxSagaEffects, logType });
+        yield effects[key](params, {
+          fork,
+          put,
+          takeEvery,
+          takeLatest,
+          cancel,
+          take,
+          call,
+          delay,
+          debounce,
+          throttle,
+          currentActionType,
+        });
       };
-      const task = yield ReduxSagaEffects.fork(watcher);
-      yield ReduxSagaEffects.fork(function*() {
-        yield ReduxSagaEffects.take(FLGA + '@@cancel');
-        yield ReduxSagaEffects.cancel(task);
+      const task = yield fork(watcher);
+      yield fork(function*() {
+        yield take(SagaPattern + '@@cancel');
+        yield cancel(task);
       });
     }
 
-    generators.push(ReduxSagaEffects.takeLatest(FLGA, sagaEffects));
+    generators.push(takeLatest(SagaPattern, sagaEffects));
   });
 
   return generators;
