@@ -6,8 +6,5 @@
   },
   "devDependencies": {
     "lerna": "^3.16.4"
-  },
-  "dependencies": {
-    "@mitod/mitod-redux": "0.0.10"
   }
 }
