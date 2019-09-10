@@ -2,10 +2,8 @@
   "name": "@mitod/rh-forms",
   "version": "0.0.4",
   "main": "lib/index.js",
-  "module": "esm/index.js",
   "files": [
-    "lib",
-    "esm"
+    "lib"
   ],
   "scripts": {
     "lint": "eslint .",
