@@ -8,7 +8,7 @@ export default function getReducers(
   namespace: string,
 ): Reducer {
   return (state: ModelState = initState, action: any): ModelState => {
-    const path = action.type.match(/^(\S+\.reducer)\/(\S+)$/);
+    const path = action.type.match(/^(\S+\.reducers)\/(\S+)$/);
     if (path && path[1] === `${namespace}.reducers`) {
       const actor = reducers[path[2]](state, action);
       return (actor as unknown) as ModelState;
