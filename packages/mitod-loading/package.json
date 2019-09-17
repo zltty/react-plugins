@@ -18,9 +18,9 @@
   },
   "devDependencies": {
     "@react-native-community/eslint-config": "0.0.5",
-    "eslint": "^6.1.0",
-    "rimraf": "^2.6.3",
-    "typescript": "^3.5.3"
+    "eslint": "6.1.0",
+    "rimraf": "2.6.3",
+    "typescript": "3.5.3"
   },
   "publishConfig": {
     "access": "public"
