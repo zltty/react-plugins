@@ -13,6 +13,6 @@ export default function getReducers(
       const actor = reducers[path[2]](state, action);
       return (actor as unknown) as ModelState;
     }
-    return initState;
+    return state;
   };
 }
