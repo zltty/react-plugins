@@ -5,6 +5,7 @@ export type TTrigger = 'onChange' | 'onPress' | 'onChangeText' | 'onClick'; // å
 
 export interface IRules {
   required?: boolean;
+  requiredMsg?: string;
   pattern: RegExp;
   message: string;
 }

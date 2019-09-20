@@ -27,7 +27,12 @@ function validator(values: IValues, rulesConfig: IConfig): IResult {
         if (!result[currentRuleKey]) {
           result[currentRuleKey] = [];
         }
-        result[currentRuleKey].push('value is null');
+
+        const msg = rules[j].requiredMsg
+          ? rules[j].requiredMsg
+          : 'value is null';
+
+        result[currentRuleKey].push(msg as string);
       } else {
         // 校验其他
         if (!rules[j].pattern.test(currentValue)) {
