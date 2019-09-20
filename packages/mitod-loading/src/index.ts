@@ -47,7 +47,7 @@ export default function createLoading(options: IOptions = {}) {
           };
         }
         default:
-          return initState;
+          return state;
       }
     },
     middleware: () => (next: any) => (action: any) => next(action),
