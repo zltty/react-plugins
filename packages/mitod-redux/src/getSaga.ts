@@ -10,6 +10,7 @@ import {
   delay,
   throttle,
   debounce,
+  select,
 } from 'redux-saga/effects';
 
 import { SagaEffectGenerator, GeneratorsType, ForkEffect } from './types';
@@ -44,6 +45,7 @@ export default function getSaga(
           cancel,
           take,
           call,
+          select,
           delay,
           debounce,
           throttle,
