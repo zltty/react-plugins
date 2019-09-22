@@ -7,12 +7,22 @@ const defaultCountTime = 30;
 
 type Result = [number, boolean, React.Dispatch<boolean>];
 
-const useCountDown = (countTime: number = defaultCountTime) => {
+const useCountDown = (
+  fn: (v: any) => void,
+  countTime: number = defaultCountTime,
+) => {
   const [isStart, setStart] = useState(false); // 开启倒计时
   const [countDown, setCountDown] = useState(countTime); // 倒计时
 
   useInterval(
-    () => setCountDown((t: number) => t - 1),
+    () => {
+      if (countDown === 0) {
+        setStart(false);
+        fn && fn(setStart);
+        return;
+      }
+      setCountDown(t => t - 1);
+    },
     isStart ? defaultDelay : null,
   );
 
