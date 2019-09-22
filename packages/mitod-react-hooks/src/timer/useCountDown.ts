@@ -8,7 +8,7 @@ const defaultCountTime = 30;
 type Result = [number, boolean, React.Dispatch<boolean>];
 
 const useCountDown = (
-  fn: (v: any) => void,
+  fn: Function | undefined,
   countTime: number = defaultCountTime,
 ) => {
   const [isStart, setStart] = useState(false); // 开启倒计时
