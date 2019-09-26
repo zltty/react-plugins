@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  applyMiddleware,
-  combineReducers,
-  createStore,
-  Middleware,
-} from 'redux';
+import { applyMiddleware, combineReducers, createStore, Middleware } from 'redux';
 import mitodLoading from '@mitod/mitod-loading';
 import logger from 'redux-logger';
 import { StoreContext, useDispatch, useMappedState } from 'redux-react-hook';
@@ -13,8 +8,6 @@ import { all } from 'redux-saga/effects';
 
 import createReduersSaga from './createReduersSaga';
 import { Model } from './types';
-
-export { Model };
 
 interface ConfigProps {
   /**
@@ -39,12 +32,7 @@ const middlewares: Middleware[] = [];
 const addReducers = {};
 
 const Config = (config: ConfigProps) => {
-  const {
-    initialState = {},
-    models,
-    dev = false,
-    loading = 'loading',
-  } = config;
+  const { initialState = {}, models, dev = false, loading = 'loading' } = config;
   const sagaMiddleware = createSagaMiddleware();
   middlewares.push(sagaMiddleware);
 
@@ -65,11 +53,7 @@ const Config = (config: ConfigProps) => {
     ...addReducers,
   });
   // initialState
-  const store = createStore(
-    reducers,
-    initialState,
-    applyMiddleware(...middlewares),
-  );
+  const store = createStore(reducers, initialState, applyMiddleware(...middlewares));
   // exec
   sagaMiddleware.run(function*() {
     yield all(sagas);
@@ -81,9 +65,9 @@ const Config = (config: ConfigProps) => {
 };
 
 const Root = ({ children, store }) => {
-  return (
-    <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
-  );
+  return <StoreContext.Provider value={store}>{children}</StoreContext.Provider>;
 };
 
 export { Config, Root, useDispatch, useMappedState };
+export { Model };
+export { default as useEffectsHelper } from './useEffectsHelper';

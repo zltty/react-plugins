@@ -1,14 +1,6 @@
 import { Action } from 'redux';
 import { ActionMatchingPattern } from '@redux-saga/types';
-import {
-  SimpleEffect,
-  ForkEffectDescriptor,
-  ActionPattern,
-  CallEffect,
-  ForkEffect,
-  PutEffect,
-  TakeEffect,
-} from 'redux-saga/effects';
+import { SimpleEffect, ForkEffectDescriptor, ActionPattern, CallEffect, ForkEffect, PutEffect, TakeEffect } from 'redux-saga/effects';
 
 export interface ModelState {
   [x: string]: any;
@@ -35,21 +27,10 @@ export type GeneratorsType = SimpleEffect<'FORK', ForkEffectDescriptor>;
 interface SagaEffect {
   put: <A extends Action>(action: A) => PutEffect<A>;
   take: (pattern?: ActionPattern) => TakeEffect;
-  call: <Fn extends (...args: any[]) => any>(
-    fn: Fn,
-    ...args: Parameters<Fn>
-  ) => CallEffect;
+  call: <Fn extends (...args: any[]) => any>(fn: Fn, ...args: Parameters<Fn>) => CallEffect;
   delay<T = true>(ms: number, val?: T): CallEffect;
-  debounce: <P extends ActionPattern>(
-    ms: number,
-    pattern: P,
-    worker: (action: ActionMatchingPattern<P>) => any,
-  ) => ForkEffect;
-  throttle: <P extends ActionPattern>(
-    ms: number,
-    pattern: P,
-    worker: (action: ActionMatchingPattern<P>) => any,
-  ) => ForkEffect;
+  debounce: <P extends ActionPattern>(ms: number, pattern: P, worker: (action: ActionMatchingPattern<P>) => any) => ForkEffect;
+  throttle: <P extends ActionPattern>(ms: number, pattern: P, worker: (action: ActionMatchingPattern<P>) => any) => ForkEffect;
   /**
    * 当前 action type
    */

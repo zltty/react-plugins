@@ -1,6 +1,6 @@
 {
   "name": "@mitod/mitod-redux",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "main": "lib/index.js",
   "files": [
     "lib"
@@ -20,7 +20,8 @@
     "redux-logger": "^3.0.6",
     "redux-react-hook": "^3.3.2",
     "redux-saga": "1.0.5",
-    "@redux-saga/core": "1.0.3"
+    "@redux-saga/core": "1.0.3",
+    "@mitod/rhooks": "0.0.3"
   },
   "devDependencies": {
     "@react-native-community/eslint-config": "0.0.5",

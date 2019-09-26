@@ -1,44 +1,21 @@
-import { Action } from 'redux';
-import {
-  fork,
-  put,
-  takeEvery,
-  takeLatest,
-  cancel,
-  take,
-  call,
-  delay,
-  throttle,
-  debounce,
-  select,
-  all
-} from 'redux-saga/effects';
+import { fork, put, takeEvery, takeLatest, cancel, take, call, delay, throttle, debounce, select, all } from 'redux-saga/effects';
 
 import { SagaEffectGenerator, GeneratorsType, ForkEffect } from './types';
 
-export default function getSaga(
-  effects: SagaEffectGenerator,
-  namespace: string,
-): ForkEffect[] {
+export default function getSaga(effects: SagaEffectGenerator, namespace: string): ForkEffect[] {
   const generators: GeneratorsType[] = [];
 
   Object.keys(effects).forEach(key => {
     const SagaPattern = `${namespace}.effects/${key}`;
 
-    function* currentActionType(type: Action) {
-      yield put({
-        type,
-        actionType: SagaPattern,
-      });
-    }
-
     /**
      * 生成effects
      * @param params
      */
-    function* sagaEffects(params: any) {
+    function* sagaEffects(payload: any) {
       const watcher = function*() {
-        yield effects[key](params, {
+        yield put({ type: 'loading/@@show', actionType: `${namespace}/${key}` });
+        yield effects[key](payload, {
           fork,
           put,
           takeEvery,
@@ -51,12 +28,16 @@ export default function getSaga(
           delay,
           debounce,
           throttle,
-          currentActionType,
+          currentActionType: SagaPattern,
         });
+        yield put({ type: 'loading/@@hide', actionType: `${namespace}/${key}` });
       };
+
       const task = yield fork(watcher);
+
       yield fork(function*() {
         yield take(SagaPattern + '@@cancel');
+        yield put({ type: 'loading/@@hide', actionType: `${namespace}/${key}` });
         yield cancel(task);
       });
     }
