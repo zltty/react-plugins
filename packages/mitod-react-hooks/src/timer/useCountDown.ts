@@ -5,32 +5,28 @@ import useInterval from './useInterval';
 const defaultDelay = 1000;
 const defaultCountTime = 30;
 
-type CountDownType = [
-  number,
-  boolean,
-  React.Dispatch<React.SetStateAction<boolean>>
-];
+type Result = [number, boolean, React.Dispatch<boolean>];
 
 const useCountDown = (
-  fn?: () => void,
-  countTime = defaultCountTime,
-): CountDownType => {
-  const [start, setStart] = useState(false); // 开启倒计时
+  fn: Function | undefined,
+  countTime: number = defaultCountTime,
+) => {
+  const [isStart, setStart] = useState(false); // 开启倒计时
   const [countDown, setCountDown] = useState(countTime); // 倒计时
 
   useInterval(
     () => {
       if (countDown === 0) {
         setStart(false);
-        setCountDown(countTime);
-        fn && fn();
+        fn && fn(setStart);
         return;
       }
-      setCountDown(countDown - 1);
+      setCountDown(t => t - 1);
     },
-    start ? defaultDelay : null,
+    isStart ? defaultDelay : null,
   );
 
-  return [countDown, start, setStart];
+  return [countDown, isStart, setStart] as Result;
 };
+
 export default useCountDown;
