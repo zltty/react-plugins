@@ -12,7 +12,7 @@ const useEffectsHelper = (fn, namespace, effectsMethod) => {
   const mapstate = useMappedState(
     useCallback(
       state => ({
-        [namespace]: state.namespace,
+        [namespace]: state[namespace],
         loading: state.loading[`${namespace}/${effectsMethod}`],
       }),
       [effectsMethod, namespace],
