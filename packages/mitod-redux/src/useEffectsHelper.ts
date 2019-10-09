@@ -7,6 +7,8 @@ import { useMappedState } from 'redux-react-hook';
  * @param fn
  * @param namespace models namespace
  * @param effectsMethod models effects 生成器方法
+ * 
+ * @returns [当前models state,loading]]
  */
 const useEffectsHelper = (fn, namespace, effectsMethod) => {
   const mapstate = useMappedState(
@@ -25,7 +27,7 @@ const useEffectsHelper = (fn, namespace, effectsMethod) => {
     }
   }, [fn, mapstate, mapstate.loading, namespace, prevLoading]);
 
-  return mapstate[namespace];
+  return [mapstate[namespace], mapstate.loading];
 };
 
 export default useEffectsHelper;

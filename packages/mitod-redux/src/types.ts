@@ -22,7 +22,7 @@ export type StateAction = (state, action) => ModelState;
 export { Action } from 'redux';
 export { ForkEffect };
 
-export type GeneratorsType = SimpleEffect<'FORK', ForkEffectDescriptor>;
+export type GeneratorsType = SimpleEffect<'FORK', ForkEffectDescriptor<any>>;
 
 interface SagaEffect {
   put: <A extends Action>(action: A) => PutEffect<A>;

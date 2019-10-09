@@ -76,3 +76,9 @@ dispatch({
   type:'aaaa.effects/bbbb@@cancel'
 })
 ```
+
+## helper
+```ts
+const [xxState, loading] = (fn?) => useEffectsHelper(fn, 'xxState', 'action');
+
+```
