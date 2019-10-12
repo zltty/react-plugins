@@ -32,6 +32,8 @@ export default function useForms(config: IConfig, type?: validatorType) {
   const [errors, setErrors] = useState<any>({});
   const [isValidating, setIsValidating] = useState(false);
 
+  const runValidations = useCallback((values,config) => validator(values, config),[]);
+
   // 获取当前值
   const getFieldValitate = useCallback(
     field => {
@@ -43,14 +45,6 @@ export default function useForms(config: IConfig, type?: validatorType) {
     },
     [errors, isValidating, values],
   );
-
-  // 校验
-  const checkError = useCallback(() => {
-    const result = validator(values, initConfig.current);
-    const isValid = JSON.stringify(result) === '{}';
-    setErrors(result);
-    return isValid;
-  }, [values]);
 
   // input
   const getFieldProps = useCallback(
@@ -73,30 +67,33 @@ export default function useForms(config: IConfig, type?: validatorType) {
           }
 
           if (type === 'immediate') {
+            async function checkError() {
+              const result = await runValidations(values,initConfig.current);
+              setErrors(result);
+            }
+
             checkError();
           }
         },
       };
     },
-    [checkError, getFieldValitate, type],
+    [getFieldValitate, type],
   );
 
   // button submit
   const getSubmitButtonProps = useCallback(
     (onSubmit, options?: SubmitButtonPropsOptions) => {
       return {
-        [options && options.trigger ? options.trigger : 'onPress']: () => {
+        [options && options.trigger ? options.trigger : 'onPress']: async () => {
           // 验证
           setIsValidating(true);
-          const isValid = checkError();
+          const result = await runValidations(values,initConfig.current);
           setIsValidating(false);
-          if (isValid) {
-            onSubmit(values, errors);
-          }
+          onSubmit(values, result);
         },
       };
     },
-    [checkError, errors, values],
+    [errors, values],
   );
 
   return {
