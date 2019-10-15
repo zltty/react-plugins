@@ -34,12 +34,15 @@ function validator(values: IValues, rulesConfig: IConfig): IResult {
 
         result[currentRuleKey].push(msg as string);
       } else {
-        // 校验其他
-        if (!rules[j].pattern.test(currentValue)) {
-          if (!result[currentRuleKey]) {
-            result[currentRuleKey] = [];
+        if (rules[j].pattern) {
+          // 校验其他
+          if (!(rules[j].pattern as RegExp).test(currentValue)) {
+            if (!result[currentRuleKey]) {
+              result[currentRuleKey] = [];
+            }
+            rules[j].message &&
+              result[currentRuleKey].push(rules[j].message as string);
           }
-          result[currentRuleKey].push(rules[j].message);
         }
       }
     }

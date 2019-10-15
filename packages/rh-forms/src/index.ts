@@ -32,7 +32,7 @@ export default function useForms(config: IConfig, type?: validatorType) {
   const [errors, setErrors] = useState<any>({});
   const [isValidating, setIsValidating] = useState(false);
 
-  const runValidations = useCallback((values,config) => validator(values, config),[]);
+  const runValidations = useCallback((v, c) => validator(v, c), []);
 
   // 获取当前值
   const getFieldValitate = useCallback(
@@ -68,7 +68,7 @@ export default function useForms(config: IConfig, type?: validatorType) {
 
           if (type === 'immediate') {
             async function checkError() {
-              const result = await runValidations(values,initConfig.current);
+              const result = await runValidations(values, initConfig.current);
               setErrors(result);
             }
 
@@ -77,23 +77,25 @@ export default function useForms(config: IConfig, type?: validatorType) {
         },
       };
     },
-    [getFieldValitate, type],
+    [getFieldValitate, runValidations, type, values],
   );
 
   // button submit
   const getSubmitButtonProps = useCallback(
     (onSubmit, options?: SubmitButtonPropsOptions) => {
       return {
-        [options && options.trigger ? options.trigger : 'onPress']: async () => {
+        [options && options.trigger
+          ? options.trigger
+          : 'onPress']: async () => {
           // 验证
           setIsValidating(true);
-          const result = await runValidations(values,initConfig.current);
+          const result = await runValidations(values, initConfig.current);
           setIsValidating(false);
           onSubmit(values, result);
         },
       };
     },
-    [errors, values],
+    [runValidations, values],
   );
 
   return {
