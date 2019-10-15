@@ -1,6 +1,6 @@
 import { IConfig, IResult, IValues } from './typings';
 
-function validator(values: IValues, rulesConfig: IConfig): IResult {
+function validator(values: IValues, rulesConfig: IConfig): IResult | null {
   // 规则
   const rulesKeys = Object.keys(rulesConfig);
 
@@ -13,35 +13,35 @@ function validator(values: IValues, rulesConfig: IConfig): IResult {
   const len = rulesKeys.length;
 
   for (let i = 0; i < len; i++) {
-    const currentRuleKey = rulesKeys[i];
+    const filedKey = rulesKeys[i];
 
-    const { rules } = rulesConfig[currentRuleKey];
-    // 需要校验的规则次数
+    const { rules } = rulesConfig[filedKey];
+    // 需要校验的规则
     const len2 = rules.length;
     // 当前校验的值
-    const currentValue = values[currentRuleKey];
+    const value = values[filedKey];
 
     for (let j = 0; j < len2; j++) {
       // 优先校验required
-      if (rules[j].required && currentValue.length === 0) {
-        if (!result[currentRuleKey]) {
-          result[currentRuleKey] = [];
+      if (rules[j].required && value.length === 0) {
+        if (!result[filedKey]) {
+          result[filedKey] = [];
         }
 
         const msg = rules[j].requiredMsg
           ? rules[j].requiredMsg
           : 'value is null';
 
-        result[currentRuleKey].push(msg as string);
+        result[filedKey].push(msg as string);
       } else {
         if (rules[j].pattern) {
           // 校验其他
-          if (!(rules[j].pattern as RegExp).test(currentValue)) {
-            if (!result[currentRuleKey]) {
-              result[currentRuleKey] = [];
+          if (!(rules[j].pattern as RegExp).test(value)) {
+            if (!result[filedKey]) {
+              result[filedKey] = [];
             }
             rules[j].message &&
-              result[currentRuleKey].push(rules[j].message as string);
+              result[filedKey].push(rules[j].message as string);
           }
         }
       }

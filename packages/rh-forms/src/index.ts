@@ -19,7 +19,7 @@ type validatorType = 'immediate' | 'submit';
 
 export default function useForms(config: IConfig, type?: validatorType) {
   const initConfig = useRef(config);
-
+  const [errors, setErrors] = useState<any>(null);
   const [values, setValues] = useState<any>(() => {
     const keys = Object.keys(config);
     const initValue = {};
@@ -29,10 +29,18 @@ export default function useForms(config: IConfig, type?: validatorType) {
     return initValue;
   });
 
-  const [errors, setErrors] = useState<any>({});
   const [isValidating, setIsValidating] = useState(false);
 
-  const runValidations = useCallback((v, c) => validator(v, c), []);
+  const runValidations = useCallback((v, c) => {
+    const result = validator(v, c);
+    if (JSON.stringify(result) === '{}') {
+      setErrors(null);
+      return null;
+    } else {
+      setErrors(result);
+      return result;
+    }
+  }, []);
 
   // 获取当前值
   const getFieldValitate = useCallback(
@@ -40,7 +48,7 @@ export default function useForms(config: IConfig, type?: validatorType) {
       return {
         disabled: isValidating,
         value: values[field],
-        error: errors[field],
+        error: errors ? errors[field] : null,
       };
     },
     [errors, isValidating, values],
@@ -61,6 +69,7 @@ export default function useForms(config: IConfig, type?: validatorType) {
           setValues(preValues => {
             return { ...preValues, [field]: value };
           });
+
           // 如果validator是函数
           if (validate && typeof validate === 'function') {
             validate(value);
@@ -68,8 +77,7 @@ export default function useForms(config: IConfig, type?: validatorType) {
 
           if (type === 'immediate') {
             async function checkError() {
-              const result = await runValidations(values, initConfig.current);
-              setErrors(result);
+              await runValidations(values, initConfig.current);
             }
 
             checkError();
