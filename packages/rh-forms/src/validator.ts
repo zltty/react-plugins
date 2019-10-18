@@ -15,7 +15,7 @@ function validator(values: IValues, rulesConfig: IConfig): IResult | null {
   for (let i = 0; i < len; i++) {
     const filedKey = rulesKeys[i];
 
-    const { rules } = rulesConfig[filedKey];
+    const { rules=[] } = rulesConfig[filedKey];
     // 需要校验的规则
     const len2 = rules.length;
     // 当前校验的值

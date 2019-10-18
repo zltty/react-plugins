@@ -29,11 +29,11 @@ export interface IConfig {
     /**
      * 正则验证规则
      */
-    rules: IRules[];
+    rules?: IRules[];
     /**
      * 默认值
      */
-    initValue?: string;
+    initValue?: any;
     /**
      * 触发器， 默认onChange 支持 Trigger类型
      */
