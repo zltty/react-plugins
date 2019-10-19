@@ -1,0 +1,16 @@
+.swiper-vertical-item {
+  &>img {
+    height: 100%;
+    width: 100%;
+  }
+}
+ .swiper-horizontal-item {
+  display: inline-block;
+  height: auto;
+
+  &>img {
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+}

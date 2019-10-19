@@ -1,0 +1,13 @@
+.swiper {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    &>ul {
+        height: auto;
+        overflow: hidden;
+        position: relative;
+        padding: 0;
+        margin: 0;
+    }
+}
+ 

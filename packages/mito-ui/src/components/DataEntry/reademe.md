@@ -1,0 +1,16 @@
+## 数据录入
+###1.Button 按钮
+###2.Checkbox 复选框
+###3.DatePicker 日期选择
+###4.ImagePicker 图片选择器
+###5.TextInput 文本输入
+###6.Picker 选择器
+###7.PickerView 选择器
+###8.Radio 单选框
+###9.Range 区域选择
+###10.SearchBar 搜索栏
+###11.Slider 滑动输入条
+###12.Swiper 轮播图
+###13.Stepper 步进器
+###14.Switch 滑动开关
+###15.TextareaItem 多行输入
