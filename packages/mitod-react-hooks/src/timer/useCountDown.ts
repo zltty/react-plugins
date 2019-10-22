@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState,Dispatch } from 'react';
 
 import useInterval from './useInterval';
 
 const defaultDelay = 1000;
 const defaultCountTime = 30;
 
-type Result = [number, boolean, React.Dispatch<boolean>];
+type Result = [number, boolean, Dispatch<boolean>, Dispatch<number>];
 
 const useCountDown = (
   fn: Function | undefined,
@@ -26,7 +26,7 @@ const useCountDown = (
     isStart ? defaultDelay : null,
   );
 
-  return [countDown, isStart, setStart] as Result;
+  return [countDown, isStart, setStart,setCountDown] as Result;
 };
 
 export default useCountDown;
