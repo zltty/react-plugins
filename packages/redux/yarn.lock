@@ -293,10 +293,10 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-"@mitod/mitod-loading@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@mitod/mitod-loading/-/mitod-loading-0.0.6.tgz#ed440ef7318dc72e6f5083e54323a5692ad83076"
-  integrity sha512-OwL+1D/I2IrOy49H99rptsrqTbE3stuCORmggAvLMLbOb7QNKr//HJJGjcd6XtaBdYFTVBQmfT7VqvLENnk/Mg==
+"@mitod/redux-loading@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@mitod/redux-loading/-/redux-loading-0.0.1.tgz#092cf80499d5e1090d95b400f2a300334205b4b6"
+  integrity sha512-CbWwbb6lNUb4rs9xVJFvWhR7YE6Jz723VOum2abWqlm1iRCaTrLenoH0VHgyIo5JkGbDuQpqPi1jyiYUwuQy/g==
 
 "@mitod/rhooks@0.0.3":
   version "0.0.3"

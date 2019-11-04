@@ -5,7 +5,7 @@ import {
   createStore,
   Middleware,
 } from 'redux';
-import mitodLoading from '@mitod/redux-loading';
+import reduxLoading from '@mitod/redux-loading';
 import logger from 'redux-logger';
 import { StoreContext, useDispatch, useMappedState } from 'redux-react-hook';
 import createSagaMiddleware, { END } from 'redux-saga';
@@ -47,7 +47,7 @@ const Config = (config: ConfigProps) => {
   middlewares.push(sagaMiddleware);
 
   // add loading
-  const { namespace, reducer, middleware } = mitodLoading({
+  const { namespace, reducer, middleware } = reduxLoading({
     name: loading,
   });
   addReducers[namespace] = reducer;
