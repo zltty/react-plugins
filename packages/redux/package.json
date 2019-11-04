@@ -1,6 +1,6 @@
 {
-  "name": "@mitod/mitod-redux",
-  "version": "0.0.23",
+  "name": "@mitod/redux",
+  "version": "0.0.1",
   "main": "lib/index.js",
   "files": [
     "lib"
@@ -15,7 +15,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@mitod/mitod-loading": "^0.0.6",
+    "@mitod/redux-loading": "^0.0.1",
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
     "redux-react-hook": "^3.3.2",
