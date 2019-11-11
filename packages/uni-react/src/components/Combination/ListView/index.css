@@ -1,0 +1,6 @@
+.view-container {
+  display: flex;
+  flex-direction: column; }
+
+.view-container :nth-child(2n-1) {
+  background: red; }
