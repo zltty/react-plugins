@@ -1,0 +1,25 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "current",
+          "esmodules": true
+        },
+        "useBuiltIns": "usage"
+      },
+    ],
+    "@babel/preset-react"
+  ],
+  
+  "plugins": [
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    ["@babel/plugin-proposal-class-properties"],
+    ["@babel/plugin-syntax-dynamic-import"],
+    // [
+    //   "import",
+    //   { "libraryName": "antd", "libraryDirectory": "es", "style": true }
+    // ],
+  ]
+}

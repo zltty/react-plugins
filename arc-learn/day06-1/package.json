@@ -1,0 +1,96 @@
+{
+  "name": "react-best-practice",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@hot-loader/react-dom": "^16.8.6",
+    "cross-env": "^5.2.0",
+    "express": "^4.16.4",
+    "immutable": "^4.0.0-rc.12",
+    "koa": "^2.6.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-redux": "^7.0.2",
+    "react-router-config": "^5.0.0",
+    "react-router-dom": "^5.0.0",
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6"
+  },
+  "scripts": {
+    "start-dev": "better-npm-run start:client",
+    "start-dev-koa": "better-npm-run start-dev:koa",
+    "build-client": "better-npm-run build:client",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "betterScripts": {
+    "start:client": {
+      "command": "node -r @babel/register reload/express-reload.js",
+      "env": {
+        "NODE_ENV": "development",
+        "HOST": "127.0.0.1",
+        "PORT": 3000,
+        "THEME": {
+          "primary-color": "#03b39b"
+        }
+      }
+    },
+    "start-dev:koa": {
+      "command": "node -r @babel/register src/day08/server/koa/index",
+      "env": {
+        "NODE_ENV": "development",
+        "PORT": 3100
+      }
+    },
+    "build:client": {
+      "command": "node -r @babel/register --trace-warnings ./node_modules/webpack/bin/webpack --config ./webpack/webpack.config.client.dev.js --progress --profile --colors",
+      "env": {
+        "NODE_ENV": "development",
+        "HOST": "127.0.0.1",
+        "THEME": {
+          "primary-color": "#03b39b"
+        }
+      }
+    }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.2.3",
+    "@babel/plugin-proposal-decorators": "^7.2.3",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "autoprefixer": "^9.4.4",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-import": "^1.11.0",
+    "better-npm-run": "^0.1.1",
+    "css-loader": "^2.1.0",
+    "html-webpack-plugin": "^3.2.0",
+    "less": "^3.9.0",
+    "less-loader": "^4.1.0",
+    "nodemon": "^1.18.9",
+    "postcss-color-function": "^4.0.1",
+    "postcss-loader": "^3.0.0",
+    "precss": "^4.0.0",
+    "react-hot-loader": "^4.6.3",
+    "style-loader": "^0.23.1",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.28.3",
+    "webpack-cli": "^3.2.0",
+    "webpack-merge": "^4.2.1",
+    "webpack-node-externals": "^1.7.2",
+    "webpack-dev-middleware": "^3.6.2",
+    "webpack-hot-middleware": "^2.24.4"
+  }
+}
