@@ -18,7 +18,7 @@
     "react": "^16.9.0"
   },
   "devDependencies": {
-    "@react-native-community/eslint-config": "0.0.5",
+    "@mitod/eslint-config": "^0.0.6",
     "@testing-library/react": "^9.1.1",
     "@testing-library/react-hooks": "^1.1.0",
     "@types/redux-logger": "^3.0.7",

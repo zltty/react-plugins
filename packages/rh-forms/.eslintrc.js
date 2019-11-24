@@ -1,4 +1,18 @@
 module.exports = {
   root: true,
-  extends: "@react-native-community"
+  env: {
+    es6: true,
+  },
+
+  parserOptions: {
+    sourceType: 'module',
+  },
+
+  extends: [
+    '@mitod/eslint-config/globals',
+    '@mitod/eslint-config/base',
+    '@mitod/eslint-config/ts',
+    '@mitod/eslint-config/jest',
+    '@mitod/eslint-config/react',
+  ],
 };

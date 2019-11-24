@@ -17,10 +17,10 @@
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "@react-native-community/eslint-config": "0.0.5",
-    "eslint": "6.1.0",
-    "rimraf": "2.6.3",
-    "typescript": "3.5.3"
+    "@mitod/eslint-config": "^0.0.6",
+    "eslint": "6.7.0",
+    "rimraf": "3.0.0",
+    "typescript": "3.7.2"
   },
   "publishConfig": {
     "access": "public"
