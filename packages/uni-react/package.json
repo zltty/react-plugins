@@ -41,7 +41,7 @@
     "react-test-renderer": "^15.6.1",
     "url-loader": "^0.5.9",
     "webpack": "^3.5.2",
-    "webpack-bundle-analyzer": "^2.9.0"
+    "webpack-bundle-analyzer": "^3.3.2"
   },
   "dependencies": {
     "hyphenate-style-name": "^1.0.2",
